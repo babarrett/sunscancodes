@@ -1,0 +1,27 @@
+{
+  "name": "sunscancodes",
+  "version": "1.0.0",
+  "description": "NodeJS + Express REST API for accessing Sun keyboard scan code data (and corresponding USB codes)",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/babarrett/sunscancodes.git"
+  },
+  "keywords": [
+    "sun",
+    "keyboard",
+    "scancode",
+    "scan",
+    "code",
+    "USB"
+  ],
+  "author": "Bruce Barrett",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/babarrett/sunscancodes/issues"
+  },
+  "homepage": "https://github.com/babarrett/sunscancodes#readme"
+}
