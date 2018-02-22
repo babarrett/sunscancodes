@@ -14,7 +14,15 @@ var app = express();
 var sqlite3 = require('sqlite3');
 var db = new sqlite3.Database('scancodedb');
 
- app.listen(3000, function(){
+//  UTILITIES
+
+function stripLeadingColon(str) {
+  var str499 = ":499";
+  var strRight = str499.replace(":", "");
+  return strRight;
+}
+
+app.listen(3000, function(){
      console.log('SunScanCodes Server is listening on port 3000. Starting.');
  });
 
@@ -25,7 +33,26 @@ app.get('/', function(request, response){
  });
 
 app.get('/codes', function(request, response){
-     response.send('This function will return a list of all scan codes');
+  db.all("SELECT * FROM ScanCode ORDER BY SunCode",
+    function(err, rows){
+      console.log("GET codes: all codes... " + rows);
+      
+      response.send(rows);
+    }
+  )
+ });
+
+app.get('/suncode:suncode', function(request, response){
+  console.log("[request.params.suncode] == " + [request.params.suncode] );
+  stripstring = stripLeadingColon([request.params.suncode] );
+  console.log("stripstring == " + stripstring);
+  db.all("SELECT * FROM ScanCode WHERE SunCode = ?", [request.params.suncode],
+    function(err, rows){
+      console.log("GET request for SunCode: >>" + [request.params.suncode] + "<<  >>" + stripstring + "<<");
+      
+      response.send(rows);
+    }
+  )
  });
 
 app.get('/create', function(request, response){
