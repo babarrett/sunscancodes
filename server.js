@@ -17,9 +17,7 @@ var db = new sqlite3.Database('scancodedb');
 //  UTILITIES
 
 function stripLeadingColon(str) {
-  var str499 = ":499";
-  var strRight = str499.replace(":", "");
-  return strRight;
+  return str.replace(/^:/, "");
 }
 
 app.listen(3000, function(){
@@ -43,13 +41,10 @@ app.get('/codes', function(request, response){
  });
 
 app.get('/suncode:suncode', function(request, response){
-  console.log("[request.params.suncode] == " + [request.params.suncode] );
-  stripstring = stripLeadingColon([request.params.suncode] );
-  console.log("stripstring == " + stripstring);
-  db.all("SELECT * FROM ScanCode WHERE SunCode = ?", [request.params.suncode],
-    function(err, rows){
-      console.log("GET request for SunCode: >>" + [request.params.suncode] + "<<  >>" + stripstring + "<<");
-      
+  console.log("request.params.suncode == " + request.params.suncode );
+  var stripstring = stripLeadingColon(request.params.suncode);
+  db.all("SELECT * FROM ScanCode WHERE SunCode = ?", stripstring,
+    function(err, rows){      
       response.send(rows);
     }
   )
@@ -67,3 +62,8 @@ app.get('/delete', function(request, response){
      response.send('This function will remove a scan code');
  });
 
+app.post('/quotes', function(request, response) {
+  db.run("INSERT INTO Quotes VALUES ?", req.body)
+});
+  
+  
